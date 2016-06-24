@@ -48,7 +48,9 @@
 
 			<div class="buttons button-group" id="grpElse">
 				<button class="btn svg" id="btn-publish" data-svgref="icon-publish"><svg /> Publish</button>
-				<div id="account" class="button">{{!-- account-controller populates this --}}</div>
+				<div id="account" class="button">
+                    {{>userpulldown user}}
+                </div>
 			</div>
 		</div>
 	</div>
@@ -244,6 +246,7 @@
 	boot.hasEdits = {{hasEdits}}
 
 	window.Vizor = {
+        page: {graphs:{}, profiles:{}},
 		hideWebVRButton: true,
 		releaseMode: {{releaseMode}},
 		webSocketHost: '{{webSocketHost}}',

@@ -1,15 +1,23 @@
-{{#if user.username }}
+{{!-- context is (user) profile --}}
+
+{{#if username }}
 
 <button class="nofx smalltext" id="btn-account-top">
 	<span class="top-userpic">
-		<img class="gravatar-in-form" src="{{user.gravatar}}" id="top-userpic" />
+        <img class="gravatar-in-form" id="top-userpic"
+            {{#if profile.avatarScaled}}
+             src="{{profile.avatarScaled}}"
+            {{else}}
+             src="{{../gravatar}}"
+            {{/if}}
+        />
 	</span>
-	<span id="userpulldownUsername">{{user.username}}</span>
+	<span id="userpulldownUsername">{{username}}</span>
 </button>
 
 <ul class="dropdown dropdown-menu" role="menu" id="userPullDown">
     <li id="dropdownMyFilesLi">
-		<a href="/{{user.username}}">My Files</a>
+		<a href="/{{username}}">My Files</a>
 	</li>
 	<li>
 		<a class="account" href="/account">Account Details</a>

@@ -49,7 +49,9 @@
 	<script src="/scripts/account-controller.js"></script>
 	<script src="/scripts/ui/uiDragAwareHelper.js"></script>
 	<script src="/scripts/ui-minislides.js"></script>
+	<script src="/scripts/ui/pageStore.js"></script>
 	<script src="/scripts/ui-site.js"></script>
+	<script src="/scripts/ui/ui-cards.js"></script>
 
 	{{#if meta.scripts}}{{#each meta.scripts}}
 		<script type="text/javascript" src="/scripts/{{this}}"></script>
@@ -59,35 +61,32 @@
 	<script src="/scripts/application.js"></script>
 
 	<script>
+        window.Vizor = {
+            page: {graphs:{}, profiles:{}},
+            hideWebVRButton: true,
+            autoplay: true
+        }
+
 		jQuery(document).ready(function(){
 			(function(){
 				{{{templateCache}}}
-			}).apply(window);
+			}).apply(window)
 
-			window.Vizor = {
-				hideWebVRButton: true,
-				autoplay: true
-			};
+			if (typeof E2.models === 'undefined') E2.models = {}
+			if (typeof E2.controllers === 'undefined') E2.controllers = {}
 
-			if (typeof E2.models === 'undefined') E2.models = {};
-			if (typeof E2.controllers === 'undefined') E2.controllers = {};
+            E2.models.user = new User({})
+            {{#if user.username}}
+            E2.models.user.set({{{json user}}})
+            {{/if}}
 
-			E2.models.user = new User({});
-			if ('{{user.username}}' !== '') {
-				E2.models.user.set( {
-					id: '{{user._id}}',
-					name: '{{user.name}}',
-					username: '{{user.username}}',
-					gravatar: '{{{user.gravatar}}}',
-					email: '{{user.email}}'
-				})
-			}
-
-			E2.controllers.account = new AccountController();
+			E2.controllers.account = new AccountController()
 		});
     </script>
 
 	<script src="/scripts/player.min.js"></script>
+    <script src="/scripts/util.js"></script>
+
     <script src="/scripts/hardware.js"></script>
     <script src="/vendor/borismus/webvr-polyfill.js"></script>
     <script src="/vendor/borismus/webvr-manager.js"></script>
@@ -100,8 +99,21 @@
 	{{> srv/siteSvgSprite }}
 
 	{{#unless meta.noheader}}
-    <header>
-		{{> navbar}}
+    <header
+    {{#if meta.withUserHeader}}
+        data-uid="{{profile.id}}"
+        {{#if profile.profile.header}}
+            style="background-image:url('{{profile.profile.header}}')"
+        {{/if}}
+    {{/if}}
+    ><div class="header-overlay"></div>
+		{{#if meta.navbar}}
+           {{#with meta}}
+                {{> (lookup . 'navbar') .. }}
+            {{/with}}
+        {{else}}
+            {{> navbar}}
+		{{/if}}
     </header>
 	{{/unless}}
 

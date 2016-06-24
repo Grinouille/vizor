@@ -1,0 +1,15 @@
+<article class="asset new card noselect" data-objectid="" data-asset-type="{{assetType}}">
+	<div class="meta scrollbar">
+		<h4 class="editable">Create new {{assetTypeText}}</h4>
+	</div>
+	<div class="image noimage"
+         {{#if actionIcon}}
+         style="background-image: url('{{newIconUrl}}');"
+         {{/if}}>
+		<div class="overlay flexcenter">
+			<a class="btn action mainaction new svg" data-action="new" href="{{path}}" data-svgref="card-icon-new">
+				<span>New {{assetTypeText}}</span>
+			</a>
+		</div>
+	</div>
+</article>
